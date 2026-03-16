@@ -37,11 +37,10 @@ export default async function handler(req, res) {
     const styleName = session.metadata?.style || 'Royal Portrait';
 
     const replicate = new Replicate({ auth: process.env.REPLICATE_API_TOKEN });
-    const prompt = stylePrompts[styleName] || stylePrompts['Royal Portrait'];
     
     let imageUrl;
     try {
-      // FIX 1: Using the more reliable model string and await output
+      const prompt = stylePrompts[styleName] || stylePrompts['Royal Portrait'];
       const output = await replicate.run(
         "stability-ai/stable-diffusion-3",
         { input: { prompt: prompt } }
@@ -52,9 +51,9 @@ export default async function handler(req, res) {
       imageUrl = null;
     }
 
-    // FIX 2: Correcting the Brevo API initialization
+    // BREVO EMAIL SENDING
     const apiInstance = new brevo.TransactionalEmailsApi();
-    apiInstance.setApiKey(0, process.env.BREVO_API_KEY); 
+    apiInstance.setApiKey(brevo.TransactionalEmailsApiApiKeys.apiKey, process.env.BREVO_API_KEY);
 
     try {
       await apiInstance.sendTransacEmail({
@@ -68,8 +67,9 @@ export default async function handler(req, res) {
             </div>
             <div style="padding:32px;background:#fffaf5;">
               <p style="font-size:16px;line-height:1.7;">Thank you for your order! Your <strong>${styleName}</strong> portrait has been generated.</p>
-              ${imageUrl ? `<div style="text-align:center;margin:24px 0;"><img src="${imageUrl}" style="max-width:100%;border-radius:12px;border:3px solid #C8853A;" alt="Your Yorkie Portrait"></div><p style="text-align:center;"><a href="${imageUrl}" style="background:#C8853A;color:#fff;padding:14px 32px;border-radius:50px;text-decoration:none;font-weight:700;display:inline-block;">Download Your Portrait</a></p>` : '<p>Your portrait is being generated and will arrive shortly in a follow-up email.</p>'}
-              <p style="font-size:13px;color:#888;margin-top:24px;">Questions? Reply to this email and we will help straight away.<br>OurYorkie.com</p>
+              ${imageUrl ? `<div style="text-align:center;margin:24px 0;"><img src="${imageUrl}" style="max-width:100%;border-radius:12px;border:3px solid #C8853A;" alt="Your Yorkie Portrait"></div>` : '<p>Your portrait is being generated and will arrive shortly.</p>'}
+              <p style="text-align:center;margin-top:20px;"><a href="${imageUrl}" style="background:#C8853A;color:#fff;padding:14px 32px;border-radius:50px;text-decoration:none;font-weight:700;display:inline-block;">Download Your Portrait</a></p>
+              <p style="font-size:13px;color:#888;margin-top:24px;">Questions? Reply to this email.<br>OurYorkie.com</p>
             </div>
           </div>
         `
