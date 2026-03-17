@@ -11,14 +11,11 @@ async function buffer(readable) {
 }
 
 const stylePrompts = {
-  'Royal Portrait': 'Transform this Yorkshire Terrier into an oil painting portrait. The dog is wearing a royal crown and red velvet cape with gold trim. Renaissance style. Deep dark burgundy background. Dramatic lighting. Masterpiece painting quality. Highly detailed silky fur. No frame. No border.',
-  'The Throne': 'Transform this Yorkshire Terrier into a funny illustrated portrait. The dog is sitting regally on a toilet reading a newspaper. Warm bathroom lighting. Humorous cartoon illustration style. Highly detailed. No frame. No border.',
-  'Tiny CEO': 'Transform this Yorkshire Terrier into a professional corporate portrait. The dog is wearing a sharp business suit and tie, sitting behind a mahogany executive desk. Confident expression. Blurred modern office background. Photorealistic style. No frame. No border.',
-  'Watercolor Dream': 'Transform this Yorkshire Terrier into a beautiful watercolor painting. Soft pastel colors. Delicate brushstrokes. Clean white background. Fine art style. Dreamy atmosphere. Highly detailed fur. No frame. No border.',
-  'Renaissance Angel': 'Transform this Yorkshire Terrier into a classical Renaissance painting. The dog is depicted as a cherub angel with small wings. Dramatic golden clouds background. Warm divine golden light. Raphael inspired style. Museum quality. No frame. No border.',
-  'Wanted Poster': 'Transform this Yorkshire Terrier into a wild west wanted poster illustration. Sepia tones. Vintage aged paper texture. Bold western style lettering. Sheriff star decoration. Classic western illustration style. No frame. No border.',
-  'The Detective': 'Transform this Yorkshire Terrier into a Victorian detective portrait. The dog is wearing a tiny tweed deerstalker hat and small cape, holding a magnifying glass. Foggy Victorian London cobblestone street with gas lamps at night. Cinematic lighting. Mysterious atmosphere. Detailed oil painting style. No frame. No border.',
-  'Vogue Cover': 'Transform this Yorkshire Terrier into a high fashion magazine portrait. The dog is wearing a miniature luxury designer outfit and tiny sunglasses. Professional studio lighting. Clean soft beige background. High-end fashion magazine photography style. Sharp focus on silky fur. Elegant and glamorous. No frame. No border.'
+  'The Throne': 'Transform this Yorkshire Terrier into a photorealistic portrait. The dog is sitting upright on a white toilet like a human, holding a large open book titled "How To Be Mischievous" with tiny paws. Clean light blue background. Professional studio lighting. Dignified serious expression. The dog looks very important and unbothered. Highly detailed fur. No frame. No border.',
+  'Tiny CEO': 'Transform the background into a modern high-rise corner office at golden hour. Replace the dog’s body with a sharp navy business suit and a silk tie with a bone pattern. In the foreground, place two realistic, furry canine paws resting naturally on the mahogany desk, matching the dog’s fur color. On the desk, add a brass nameplate that reads "Y. Terrier, CEO". Ensure NO human features or human hands are visible. Keep the exact face and fur texture of the dog from the upload. High-end photorealistic 8k, cinematic lighting.',
+  'Watercolor Dream': 'Transform this Yorkshire Terrier into a beautiful watercolor painting. Soft pastel colors. Delicate brushstrokes. Clean white background. Fine art style. Dreamy atmosphere. No frame. No border.',
+  'Vogue Cover': 'Transform this Yorkshire Terrier into a high fashion magazine portrait wearing a miniature luxury designer outfit and tiny sunglasses. Professional studio lighting. Clean beige background. Vogue magazine style. Sharp focus on silky fur. No frame. No border.',
+  'The Detective': 'Transform this Yorkshire Terrier into a Victorian detective portrait wearing a tiny tweed deerstalker hat and small cape, holding a magnifying glass. Foggy Victorian London cobblestone street with gas lamps. Cinematic oil painting style. No frame. No border.'
 };
 
 export default async function handler(req, res) {
@@ -36,11 +33,11 @@ export default async function handler(req, res) {
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object;
     const customerEmail = session.customer_details.email;
-    const styleName = session.metadata?.style || 'Royal Portrait';
+    const styleName = session.metadata?.style || 'Tiny CEO';
     const photoUrl = session.metadata?.photo_url;
 
     const replicate = new Replicate({ auth: process.env.REPLICATE_API_TOKEN });
-    const prompt = stylePrompts[styleName] || stylePrompts['Royal Portrait'];
+    const prompt = stylePrompts[styleName] || stylePrompts['Tiny CEO'];
 
     let imageUrl;
     try {
@@ -50,9 +47,9 @@ export default async function handler(req, res) {
           input: {
             prompt: prompt,
             input_image: photoUrl,
-            aspect_ratio: '2:3',
+            aspect_ratio: '3:4', // Changed to 3:4 for better vertical framing
             output_format: 'jpg',
-            output_quality: 90,
+            output_quality: 95,
             safety_tolerance: 2
           }
         }
