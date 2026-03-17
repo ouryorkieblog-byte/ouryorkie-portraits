@@ -11,10 +11,22 @@ async function buffer(readable) {
 }
 
 const stylePrompts = {
-  'The Throne': 'Transform this Yorkshire Terrier into a photorealistic portrait. The dog is sitting upright on a white toilet like a human, holding a large open book titled "How To Be Mischievous" with tiny paws. Clean light blue background. Professional studio lighting. Dignified serious expression. The dog looks very important and unbothered. Highly detailed fur. No frame. No border.',
+  // 1. THE ROYAL (Added back in!)
+  'Royal Portrait': 'Transform this Yorkshire Terrier into an oil painting portrait. The dog is wearing a royal crown and red velvet cape with gold trim. Renaissance style. Deep dark burgundy background. Dramatic lighting. Masterpiece painting quality. No frame. No border.',
+  
+  // 2. THE CEO (Your perfected version)
   'Tiny CEO': 'Transform the background into a modern high-rise corner office at golden hour. Replace the dog’s body with a sharp navy business suit and a silk tie with a bone pattern. In the foreground, place two realistic, furry canine paws resting naturally on the mahogany desk, matching the dog’s fur color. On the desk, add a brass nameplate that reads "Y. Terrier, CEO". Ensure NO human features or human hands are visible. Keep the exact face and fur texture of the dog from the upload. High-end photorealistic 8k, cinematic lighting.',
+  
+  // 3. THE THRONE
+  'The Throne': 'Transform this Yorkshire Terrier into a photorealistic portrait. The dog is sitting upright on a white toilet like a human, holding a large open book titled "How To Be Mischievous" with tiny paws. Clean light blue background. Professional studio lighting. Dignified serious expression. The dog looks very important and unbothered. Highly detailed fur. No frame. No border.',
+  
+  // 4. WATERCOLOR
   'Watercolor Dream': 'Transform this Yorkshire Terrier into a beautiful watercolor painting. Soft pastel colors. Delicate brushstrokes. Clean white background. Fine art style. Dreamy atmosphere. No frame. No border.',
+  
+  // 5. VOGUE
   'Vogue Cover': 'Transform this Yorkshire Terrier into a high fashion magazine portrait wearing a miniature luxury designer outfit and tiny sunglasses. Professional studio lighting. Clean beige background. Vogue magazine style. Sharp focus on silky fur. No frame. No border.',
+  
+  // 6. DETECTIVE
   'The Detective': 'Transform this Yorkshire Terrier into a Victorian detective portrait wearing a tiny tweed deerstalker hat and small cape, holding a magnifying glass. Foggy Victorian London cobblestone street with gas lamps. Cinematic oil painting style. No frame. No border.'
 };
 
@@ -33,11 +45,11 @@ export default async function handler(req, res) {
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object;
     const customerEmail = session.customer_details.email;
-    const styleName = session.metadata?.style || 'Tiny CEO';
+    const styleName = session.metadata?.style || 'Royal Portrait';
     const photoUrl = session.metadata?.photo_url;
 
     const replicate = new Replicate({ auth: process.env.REPLICATE_API_TOKEN });
-    const prompt = stylePrompts[styleName] || stylePrompts['Tiny CEO'];
+    const prompt = stylePrompts[styleName] || stylePrompts['Royal Portrait'];
 
     let imageUrl;
     try {
@@ -47,7 +59,7 @@ export default async function handler(req, res) {
           input: {
             prompt: prompt,
             input_image: photoUrl,
-            aspect_ratio: '3:4', // Changed to 3:4 for better vertical framing
+            aspect_ratio: '3:4', // Essential for showing full outfits/desks
             output_format: 'jpg',
             output_quality: 95,
             safety_tolerance: 2
