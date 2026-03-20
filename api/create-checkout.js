@@ -1,5 +1,7 @@
 import Stripe from 'stripe';
 
+export const config = { api: { bodyParser: true } };
+
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -10,6 +12,7 @@ export default async function handler(req, res) {
 
   try {
     const { style, photoUrl } = req.body;
+    console.log('Creating checkout for:', style, photoUrl);
 
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
@@ -29,9 +32,10 @@ export default async function handler(req, res) {
       metadata: { style: style, photo_url: photoUrl },
     });
 
+    console.log('Session created:', session.id);
     res.json({ url: session.url });
   } catch(err) {
-    console.error('Checkout error:', err);
+    console.error('Checkout error:', err.message);
     res.status(500).json({ error: err.message });
   }
 }
