@@ -83,7 +83,7 @@ export default async function handler(req, res) {
 
       const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
       await apiInstance.sendTransacEmail({
-        sender: { name: 'OurYorkie.com', email: 'hello@ouryorkie.com' },
+        sender: { name: 'OurYorkie.com', email: 'info@ouryorkie.com' },
         to: [{ email: customerEmail }],
         subject: `Your ${styleName} Portrait is Ready! 🐾`,
         htmlContent: `
