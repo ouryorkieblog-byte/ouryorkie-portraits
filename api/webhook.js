@@ -95,6 +95,11 @@ export default async function handler(req, res) {
               </p>
               <p style="text-align:center;font-size:12px;color:#aaa;margin-top:8px;">Click the button above to save your portrait directly to your device.</p>
               ` : '<p>Your portrait is being processed and will arrive shortly in a follow-up email.</p>'}
+              <div style="background:#fff8f0;border:1px solid #e8d9c4;border-radius:12px;padding:20px 24px;margin-top:24px;">
+                <p style="font-size:15px;color:#2C1810;margin:0 0 10px;font-weight:700;">Not quite right?</p>
+                <p style="font-size:14px;color:#6B5C4E;margin:0 0 12px;line-height:1.7;">If your portrait does not look like your Yorkie, just reply to this email with your original photo and we will regenerate it for you. We want you to love it.</p>
+                <p style="font-size:12px;color:#aaa;margin:0;line-height:1.6;">Please note that as a custom digital product, portraits are non-refundable once generated. We are always happy to do a redo if something looks off.</p>
+              </div>
               <p style="font-size:13px;color:#888;margin-top:24px;border-top:1px solid #e8d9c4;padding-top:16px;">Questions? Reply to this email and we will help straight away.<br><strong>OurYorkie.com</strong></p>
             </div>
           </div>
