@@ -1,10 +1,9 @@
 {
   "name": "ouryorkie-portraits",
   "version": "1.0.0",
-  "type": "module",
   "dependencies": {
     "stripe": "^14.0.0",
     "replicate": "^0.25.0",
-    "@getbrevo/brevo": "^2.0.0"
+    "sib-api-v3-sdk": "^8.5.0"
   }
 }
