@@ -11,18 +11,12 @@ async function buffer(readable) {
 }
 
 const stylePrompts = {
-  'Royal Portrait': 'Transform this Yorkshire Terrier into an oil painting portrait. The dog is wearing a royal crown and red velvet cape with gold trim. Renaissance style. Deep dark burgundy background. Dramatic lighting. Masterpiece painting quality. Highly detailed silky fur. No human hands. No hands. No frame. No border.',
-  'The Executive': 'Transform the background into a modern high-rise corner office at golden hour. Replace the dog\'s body with a sharp navy business suit and a silk tie with a bone pattern. In the foreground, place two realistic furry canine paws resting naturally on the mahogany desk, matching the dog\'s fur color. On the desk, add a brass nameplate that reads "Y. Terrier, CEO". Ensure NO human features or human hands are visible. Keep the exact face and fur texture of the dog from the upload. High-end photorealistic 8k, cinematic lighting. No frame. No border.',
-  'The Throne': 'Transform this Yorkshire Terrier into a photorealistic portrait sitting upright on a white toilet like a human, holding a large open book titled "How To Be Mischievous". Clean light blue background. Professional studio lighting. Dignified serious expression. No human hands. No hands. No frame. No border.',
-  'Watercolor Dream': 'Transform this Yorkshire Terrier into a beautiful watercolor painting. Soft pastel colors. Delicate brushstrokes. Clean white background. Fine art style. Dreamy atmosphere. No human hands. No hands. No frame. No border.',
-  'Vogue Cover': 'Transform this Yorkshire Terrier into a high fashion editorial portrait. The dog is wearing oversized black designer sunglasses and a small silk scarf. White studio backdrop. Dramatic lighting. Vogue magazine cover style. Sharp focus on silky fur. No human hands. No hands. No frame. No border.',
-  'The Detective': 'Transform this Yorkshire Terrier into a Victorian detective portrait wearing a tiny tweed deerstalker hat and small cape, holding a magnifying glass. Foggy Victorian London cobblestone street with gas lamps at night. Cinematic oil painting style. No human hands. No hands. No frame. No border.',
-  'The Duchess': 'Transform this Yorkshire Terrier into a classical oil painting portrait. The dog is wearing a soft rose gold crown with small pearls, draped in an ivory and champagne velvet cape with gold trim, sitting on a plush dusty rose velvet cushion with a pearl necklace. Warm candlelit background. Old master painting style. No human hands. No hands. No frame. No border.',
-  'Boss Babe': 'Transform this Yorkshire Terrier into a photorealistic professional portrait. The dog is wearing a fitted blush pink blazer with gold button details and small gold hoop earrings, sitting at a modern desk. Clean cream studio background. Soft natural window light. No human hands. No hands. No frame. No border.',
-  'Spa Girlie': 'Transform this Yorkshire Terrier into a photorealistic spa day portrait. The dog is sitting upright wearing a fluffy white spa robe with a white towel turban on its head and two cucumber slices in front of its eyes. Soft pastel pink marble bathroom background with candles and eucalyptus. No human hands. No hands. No frame. No border.',
-  'Main Character': 'Transform this Yorkshire Terrier into a high fashion editorial portrait. The dog is wearing oversized black designer sunglasses and a small silk caramel colored scarf. White seamless studio backdrop. Dramatic high contrast lighting. Vogue magazine cover composition. No human hands. No hands. No frame. No border.',
-  'Little Princess': 'Transform this Yorkshire Terrier into a fantasy princess portrait. The dog is wearing a delicate miniature tiara with pink gemstones and tiny pearls, wrapped in a soft blush pink and gold satin mini cape, sitting on a white and gold ornate small throne. Dreamy soft bokeh background with floating rose petals. No human hands. No hands. No frame. No border.',
-  'Watercolor Feminine': 'Transform this Yorkshire Terrier into a beautiful feminine watercolor painting. Soft blush pink and lavender pastel colors. Delicate brushstrokes. Small flowers woven into the fur. Clean white background. Fine art style. No human hands. No hands. No frame. No border.'
+  'Royal Portrait': 'Transform this Yorkshire Terrier into an oil painting portrait. The dog is wearing a royal crown and red velvet cape with gold trim. Renaissance style. Deep dark burgundy background. Dramatic lighting. Masterpiece painting quality. Highly detailed silky fur. Dog paws only, no human hands, no human features. No frame. No border.',
+  'The Cowboy': 'Transform this Yorkshire Terrier into a photorealistic cowboy portrait. The dog is wearing a tiny brown leather cowboy hat, a small red bandana around its neck, a little leather vest, and tiny brown cowboy boots on all four paws. Warm golden sunset desert background with cacti and open plains. Dramatic cinematic lighting. Rugged and heroic expression. Dog paws in boots only, no human hands, no human features. No frame. No border.',
+  'The Superhero': 'Transform this Yorkshire Terrier into a photorealistic superhero portrait. The dog is wearing a custom fitted red and gold cape with a small gold shield emblem on the chest, a matching red superhero mask, and tiny red boots on all four paws. City skyline at night in the background with dramatic light beams. Heroic confident expression. Dog paws in boots only, no human hands, no human features. No frame. No border.',
+  'Little Princess': 'Transform this Yorkshire Terrier into a fantasy princess portrait. The dog is wearing a delicate miniature tiara with pink gemstones and tiny pearls, wrapped in a soft blush pink and gold satin mini cape, sitting on a white and gold ornate small throne. Dreamy soft bokeh background with floating rose petals. Dog paws only, no human hands, no human features. No frame. No border.',
+  'Main Character': 'Transform this Yorkshire Terrier into a high fashion editorial portrait. The dog is wearing oversized black designer sunglasses and a small silk caramel colored scarf. White seamless studio backdrop. Dramatic high contrast lighting. Vogue magazine cover composition. Dog paws only, no human hands, no human features. No frame. No border.',
+  'Spa Girlie': 'Transform this Yorkshire Terrier into a photorealistic spa day portrait. The dog is sitting upright wearing a fluffy white spa robe with a white towel turban on its head and two cucumber slices in front of its eyes. Soft pastel pink marble bathroom background with candles and eucalyptus. Dog paws only, no human hands, no human features. No frame. No border.',
 };
 
 export default async function handler(req, res) {
@@ -71,7 +65,6 @@ export default async function handler(req, res) {
       imageUrl = null;
     }
 
-    // Force download URL via our own endpoint
     const downloadUrl = imageUrl
       ? `https://ouryorkie-portraits.vercel.app/api/download?url=${encodeURIComponent(imageUrl)}&filename=yorkie-${styleName.replace(/\s+/g,'-').toLowerCase()}.jpg`
       : null;
@@ -98,7 +91,7 @@ export default async function handler(req, res) {
                 <img src="${imageUrl}" style="max-width:100%;border-radius:12px;" alt="Your Yorkie Portrait">
               </div>
               <p style="text-align:center;margin-bottom:8px;">
-                <a href="${downloadUrl}" style="background:#C8853A;color:#fff;padding:16px 36px;border-radius:50px;text-decoration:none;font-weight:700;display:inline-block;font-size:16px;">⬇️ Download Your Portrait</a>
+                <a href="${downloadUrl}" style="background:#C8853A;color:#fff;padding:16px 36px;border-radius:50px;text-decoration:none;font-weight:700;display:inline-block;font-size:16px;">Download Your Portrait</a>
               </p>
               <p style="text-align:center;font-size:12px;color:#aaa;margin-top:8px;">Click the button above to save your portrait directly to your device.</p>
               ` : '<p>Your portrait is being processed and will arrive shortly in a follow-up email.</p>'}
